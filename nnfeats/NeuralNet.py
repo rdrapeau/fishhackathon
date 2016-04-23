@@ -10,14 +10,15 @@ myDir = os.path.dirname(os.path.realpath(__file__))
 os.environ['TERM'] = 'linux'
 
 class NeuralNet:
-    def __init__(self, model, imgDim=96, cuda=False, gpu=1):
+    def __init__(self, model, imgDim=96, cuda=False, layer=1, gpu=1):
         assert model is not None
         assert imgDim is not None
         assert cuda is not None
+        assert layer is not None
         assert gpu is not None
 
         self.cmd = ['th', os.path.join(myDir, 'torch_server.lua'),
-                    '-model', model, '-imgDim', str(imgDim), '-gpuSelect', str(gpu)]
+                    '-model', model, '-imgDim', str(imgDim), '-gpuSelect', str(gpu), '-layer', str(layer)]
         if cuda:
             self.cmd.append('-cuda')
         self.p = Popen(self.cmd, stdin=PIPE, stdout=PIPE,

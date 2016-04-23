@@ -15,13 +15,13 @@ cmd:text('Options:')
 cmd:option('-model', '', 'Path to model.')
 cmd:option('-imgDim', 96, 'Image dimension. nn1=224, nn4=96')
 cmd:option('-cuda', false)
+cmd:option('-layer', 1)
 cmd:option('-gpuSelect', 1)
 cmd:text()
 
 opt = cmd:parse(arg or {})
 
-net = loadcaffe.load('vgg19.prototxt', 'vgg19.caffemodel', 'nn')
-net:evaluate()
+net = loadcaffe.load(opt.model .. '.prototxt', opt.model .. '.caffemodel', 'nn')
 
 local imgCuda = nil
 if opt.cuda then
