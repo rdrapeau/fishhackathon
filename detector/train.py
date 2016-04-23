@@ -22,11 +22,11 @@ options.be_verbose = True
 
 
 training_xml_path = os.path.join(folder, "training.xml")
-testing_xml_path = os.path.join(folder, "testing.xml")
+# testing_xml_path = os.path.join(folder, "testing.xml")
 dlib.train_simple_object_detector(training_xml_path, "detector.svm", options)
 
 print("")
 print("Training accuracy: {}".format(
     dlib.test_simple_object_detector(training_xml_path, "detector.svm")))
-print("Testing accuracy: {}".format(
-    dlib.test_simple_object_detector(testing_xml_path, "detector.svm")))
+# print("Testing accuracy: {}".format(
+#     dlib.test_simple_object_detector(testing_xml_path, "detector.svm")))
