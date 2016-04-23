@@ -1,0 +1,51 @@
+Fish Hackathon TODO:
+
+DATASETS REQUIRED:
+- Scraper setup
+	- https://github.com/pevers/images-scraper
+
+- Fish Detection Dataset
+	- Optimize for images with lots of background if possible (SVM algorithm uses all the rest of the image except the BB as "negative" examples)
+    - Save into one folder
+    - Run dlib/tools/imglab to generate training.xml which defines the bounding boxes
+    	- https://github.com/davisking/dlib/tree/master/tools/imglab
+    - http://dlib.net/train_object_detector.py.html to generate detector svm file.
+    - Utilize detector SVM file as a standalone fish detector
+
+- Washington Fish pictures
+	- (ideally people holding fish or real fish, not illustration)
+	- https://en.wikipedia.org/wiki/List_of_freshwater_fishes_of_Washington
+	- Scrape fish scientific names
+	- Run google image scraper (should be something out there for this) on each fish scientific name
+	- Run Fish detector developed above to crop out backgrounfad, if detector fails, skip image.
+	- Save the fish into separate folders organized by identity (e.g. GoldenTrout/1.jpg ....)
+
+- Informational Data
+	- Get Genus and Species (scientific names from above)
+	- https://fishbase.ropensci.org/species?Genus=Labroides&species=bicolor
+	- Returns a JSON
+	- Cache JSON files
+
+TRAIN CLASSIFIER:
+- Transfer learning Features (Torch, Caffe) [I think this will perform best]
+	- Apply the VGG-16 or VGG-19 net on each cropped fish image.
+	- Extract activations from second-to-last layer
+	- Save Tensor to binary matrix
+	- Repeat with different layers. Find the best performing activations to steal
+	- (As you get deeper towards the end of the net it becomes more specific to ImageNET data. e.g. Dogs)
+- SIFT Features
+	- Extract SIFT features on image crop
+	- Save 128-tensor to binary matrix
+- Train Multiclass SVM
+	- Plug features extracted above into SVM implementation
+	- http://scikit-learn.org/stable/modules/svm.html
+
+
+CLASSIFICATION WORKFLOW:
+- Take picture
+- Run detector to obtain fish crop. If failed ask to take picture again.
+- Run Classifier on fish crop
+
+APP
+- Design a simple app, like dead simple cause we have no time lol
+- Takes picture, pings server with picture, returns histogram of probable fish species
