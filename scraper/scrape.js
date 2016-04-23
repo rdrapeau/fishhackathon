@@ -2,7 +2,7 @@ var Scraper = require ('images-scraper')
   , bing = new Scraper.Bing();
 
 bing.list({
-	keyword: 'caught bass',
+	keyword: 'trout fish',
 	num: 1000,
 	detail: true
 })
