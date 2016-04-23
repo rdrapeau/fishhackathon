@@ -10,6 +10,7 @@
 *.lot
 *.gz
 *.fls
+*.caffemodel
 
 *.toc
 .idea
